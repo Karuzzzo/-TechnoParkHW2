@@ -1,0 +1,6 @@
+[package]
+name = "trinket-script"
+version = "0.1.0"
+[dependencies]
+rust-crypto = "0.2.6"
+rand = "0.6"
