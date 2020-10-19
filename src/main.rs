@@ -25,7 +25,7 @@ fn build_trinket(pub_key: u32, sec_key: u128) -> Trinket {
         pub_key: pub_key,
         sec_key: sec_key,
         g: 3,
-        p: 253,
+        p: 257,
     }
 }
 
@@ -34,7 +34,7 @@ fn build_car(pub_key: u32, sec_key: u128) -> Car {
         pub_key: pub_key,
         sec_key: sec_key,
         g: 3,
-        p: 253,
+        p: 257,
         cmd_hash: " ".to_string(),
     }
 }
@@ -53,11 +53,11 @@ fn main() {
     println!("(registration) (trinket initialized with pkey {}), (car initialized with pkey {})", trinket_pub_key, car_pub_key);
     
     //here is implementation of Diffie–Hellman algorithm
-    let num_a :u128 = ((tr.g.pow(tr.pub_key))%tr.p).into();
+    let num_a :u128 = ((tr.g.wrapping_pow(tr.pub_key))%tr.p).into();
     println!("(handshake) trinket->car send data: {}", num_a);
     let num_b: u128 = trinket_generate_handshake(num_a, &mut car);
     println!("(handshake) car->trinket send data: {}", num_b);
-    tr.sec_key = (num_b.pow(tr.pub_key))%tr.p;
+    tr.sec_key = (num_b.wrapping_pow(tr.pub_key))%tr.p;
     
     if tr.sec_key == car.sec_key{
     println!("Seckey generated, Handshake succed!");
@@ -100,9 +100,9 @@ fn verify_sig(a1:&String, a2:&String)->bool{
 
 
 fn trinket_generate_handshake(num_a: u128, car: &mut Car) -> u128{
-    car.sec_key = (num_a.pow( car.pub_key) % car.p).into();
+    car.sec_key = (num_a.wrapping_pow( car.pub_key) % car.p).into();
 
-    let num_b: u128 = car.g.pow(car.pub_key) % car.p;
+    let num_b: u128 = car.g.wrapping_pow(car.pub_key) % car.p;
     return num_b;
 }
 /* this func generates and sends back random challenge for trinket, 
