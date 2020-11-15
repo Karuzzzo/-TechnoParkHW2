@@ -1,6 +1,5 @@
-### -Trinket to Car interaction
+### Trinket to Car interaction
 
-### When I started 3rd hw, I understood that there must be big, 256-bit kind of numbers, so this homework will be upgraded eventually, big numbers will be used
 
 This code is an example of the interaction between a car trinket and a car.
 It implements the Diffie-Hellman handshake protocol for setting a secret key. 
